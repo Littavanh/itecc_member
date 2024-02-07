@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "800104692410",
+    "project_id": "lw-loyalty-bdf8f",
+    "storage_bucket": "lw-loyalty-bdf8f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:800104692410:android:49d4a0a5fdd0ab7b9a6083",
+        "android_client_info": {
+          "package_name": "com.laoworld.iteccmember"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVaEIqH6UdYUPT4cgN_pPPy_AMWl2XdSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

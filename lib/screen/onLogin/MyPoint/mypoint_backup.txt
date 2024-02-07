@@ -1,0 +1,345 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:itecc_member/controller/mypoint_controller.dart';
+import 'package:itecc_member/controller/user_balance_info_controller.dart';
+import 'package:itecc_member/style/color.dart';
+
+import '../../../controller/icon_and_background_controller.dart';
+import '../../../controller/news_controller.dart';
+
+final box = GetStorage();
+
+class MyPoint extends StatelessWidget {
+  const MyPoint({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    print(" userImage: ${box.read('userImage')}");
+    UserBalanceInfoController userBalanceInfoController =
+        Get.put(UserBalanceInfoController());
+    return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [gra, dient],
+            ),
+          ),
+        ),
+        centerTitle: true,
+        title: const Text(
+          'ຄະແນນຂອງຂ້ອຍ',
+          style: TextStyle(color: primaryColor),
+        ),
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                box.read('userImage') == null || box.read('userImage') == ""
+                    ? const Icon(Icons.account_circle_outlined,
+                        size: 100, color: dient)
+                    : SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: CircleAvatar(
+                          radius: 50,
+                          backgroundImage: MemoryImage(
+                            scale: 1,
+                            const Base64Decoder()
+                                .convert(box.read('userImage')),
+                          ),
+                        ),
+                      ),
+                Obx(() => userBalanceInfoController.isLoading.value
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : RichText(
+                        text: TextSpan(
+                          // Note: Styles for TextSpans must be explicitly defined.
+                          // Child text spans will inherit styles from parent
+                          style: const TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.black,
+                          ),
+                          children: [
+                            WidgetSpan(
+                              child: InkWell(
+                                onTap: () {},
+                                child: Image.asset(
+                                  'assets/images/coins1.png',
+                                  color: icolor1,
+                                  width: 24,
+                                  height: 24,
+                                ),
+                              ),
+                            ),
+                            TextSpan(
+                                text:
+                                    '  ${userBalanceInfoController.userBalanceInfo?.totalPoint.toString()}',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: icolor1,
+                                    fontSize: 20,
+                                    fontFamily: 'NotoSansLao')),
+                          ],
+                        ),
+                      )),
+                RichText(
+                  text: TextSpan(
+                    // Note: Styles for TextSpans must be explicitly defined.
+                    // Child text spans will inherit styles from parent
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.black,
+                    ),
+                    children: [
+                      const TextSpan(
+                          text: "ປະຫວັດການແລກ",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontFamily: 'NotoSansLao')),
+                      WidgetSpan(
+                        child: InkWell(
+                          onTap: () {},
+                          child: const Icon(
+                            Icons.arrow_forward_ios,
+                            color: icolor1,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Expanded(
+            flex: 4,
+            child: MyTabbedWidget(),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class MyTabbedWidget extends StatelessWidget {
+  const MyTabbedWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    final MyPointController _tabx = Get.put(MyPointController());
+    NewsController newController = Get.put(NewsController());
+    AppController appController = Get.put(AppController());
+    // ↑ init tab controller
+    return Column(children: <Widget>[
+      SizedBox(
+        height: 60,
+        child: TabBar(
+          onTap: (index) {
+            //your currently selected index
+            print(index);
+          },
+          tabs: _tabx.myTabs,
+          controller: _tabx.controller,
+          unselectedLabelColor: textColor,
+          indicatorColor: dient,
+          labelColor: dient,
+          indicatorSize: TabBarIndicatorSize.tab,
+          indicatorWeight: 3.0,
+          indicatorPadding: const EdgeInsets.all(10),
+          isScrollable: false,
+        ),
+      ),
+      Container(
+        color: primaryColor,
+        height: Get.height * 0.535,
+        child: TabBarView(
+          controller: _tabx.controller,
+          children: _tabx.myTabs.map((Tab tab) {
+            final String label = tab.text!;
+
+            return label == 'ສິນຄ້າທີ່ສາມາດແລກໄດ້'
+                ? SizedBox(
+                    width: Get.width,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 8, left: 8, right: 8, bottom: 8),
+                      child: MediaQuery.removePadding(
+                        context: context,
+                        removeTop: true,
+                        child: Obx(() => newController.isLoading.value
+                            ? const Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : GridView.builder(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        crossAxisSpacing: 8,
+                                        mainAxisSpacing: 8),
+                                itemCount:
+                                    newController.newListModel?.data?.length,
+                                itemBuilder: (BuildContext ctx, index) {
+                                  return Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: icolor,
+                                        borderRadius: BorderRadius.circular(5)),
+                                    child: Image.network(
+                                      fit: BoxFit.fill,
+                                      height: double.infinity,
+                                      width: double.infinity,
+                                      alignment: Alignment.center,
+                                      newController.newListModel?.data![index]
+                                              .ImageURL ??
+                                          '',
+                                    ),
+                                  );
+                                })),
+                      ),
+                    ),
+                  )
+                : Obx(() => appController.isLoading.value
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : ListView.builder(
+                        itemCount:
+                            appController.applicationListModel?.data?.length,
+                        itemBuilder: (BuildContext ctx, index) {
+                          return Card(
+                            child: ListTile(
+                              leading: Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50)),
+                                child: CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage: MemoryImage(
+                                      const Base64Decoder().convert(
+                                          appController
+                                                  .applicationListModel
+                                                  ?.data![index]
+                                                  .applicationIconImage ??
+                                              '')),
+                                ),
+                              ),
+                              title: Text(
+                                appController.applicationListModel?.data![index]
+                                        .applicationName ??
+                                    '',
+                                style: const TextStyle(color: textColor),
+                              ),
+                              subtitle: Text(
+                                appController.applicationListModel?.data![index]
+                                        .applicationId ??
+                                    '',
+                              ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Text(
+                                    '-24',
+                                    style: TextStyle(
+                                        color: icolor1,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(width: 15),
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.bottomSheet(
+                                        Container(
+                                          width: Get.width,
+                                          height: 250,
+                                          color: Colors.white,
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                children: <Widget>[
+                                                  Container(
+                                                    color: Colors.white,
+                                                    width: 150,
+                                                    height: 200,
+                                                    child: const Icon(
+                                                        Icons.card_giftcard,
+                                                        size: 100,
+                                                        color: icolor),
+                                                  ),
+                                                  const Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Text('Test Title',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black)),
+                                                        Text('Test subtitle',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .grey))
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Expanded(
+                                                child: InkWell(
+                                                  onTap: () {},
+                                                  child: Container(
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      gradient: LinearGradient(
+                                                          colors: [gra, dient]),
+                                                    ),
+                                                    width: Get.width,
+                                                    alignment: Alignment.center,
+                                                    child: const Text(
+                                                      'ແລກ',
+                                                      style: TextStyle(
+                                                          color: primaryColor),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text('ແລກ',
+                                        style: TextStyle(
+                                            color: primaryColor,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16)),
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: icolor1,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        }));
+          }).toList(),
+        ),
+      ),
+    ]);
+  }
+}

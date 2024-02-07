@@ -1,0 +1,2 @@
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>This app need access to your gallery to save screenshots</string>

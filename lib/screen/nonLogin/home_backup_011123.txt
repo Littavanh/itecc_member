@@ -1,0 +1,324 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:horizontal_list/horizontal_list.dart';
+import 'package:itecc_member/controller/banner_controller.dart';
+import 'package:itecc_member/controller/feed_controller.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../controller/icon_and_background_controller.dart';
+import '../../controller/news_controller.dart';
+
+import '../../style/color.dart';
+import '../onLogin/home/banner_details.dart';
+import '../onLogin/home/feed_details.dart';
+import '../onLogin/home/icon_details.dart';
+
+class Home extends StatefulWidget {
+  const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  Icon actionIcon = const Icon(Icons.search);
+  Widget appBarTitle = const Text("");
+  final carousContext = CarouselController();
+  int activeIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    AppController appController = Get.put(AppController());
+    BannerListController bannerListController = Get.put(BannerListController());
+    FeedController feedController = Get.put(FeedController());
+    final TextEditingController _searchController = TextEditingController();
+    List<Widget> _itemsComponent() {
+      List<Widget> myList = [];
+      for (var i = 0;
+          i < appController.applicationListModel!.data!.length;
+          i++) {
+        myList.add(InkWell(
+          onTap: () async {
+            var icon_id =
+                appController.applicationListModel?.data?[i].applicationId;
+            var icon_title =
+                appController.applicationListModel?.data?[i].applicationName;
+            var icon_details =
+                appController.applicationListModel?.data?[i].applicationUrl;
+            var icon_image = appController
+                .applicationListModel?.data?[i].applicationIconImage;
+
+            Get.to(const IconDetails(),
+                arguments: [icon_id, icon_title, icon_details, icon_image]);
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 50,
+                height: 50,
+                child: CircleAvatar(
+                  radius: 50,
+                  child: ClipOval(
+                    child: Image.network(
+                      fit: BoxFit.fill,
+                      height: double.infinity,
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      appController.applicationListModel?.data![i]
+                              .applicationIconImage ??
+                          '',
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 2,
+              ),
+              Text(
+                appController.applicationListModel!.data![i].applicationName!,
+                style: const TextStyle(
+                  color: textColor,
+                  fontSize: 10,
+                ),
+              ),
+            ],
+          ),
+        ));
+      }
+      return myList;
+    }
+
+    return SafeArea(
+      child: Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+              title: appBarTitle,
+              elevation: 0.0,
+              backgroundColor: Colors.transparent,
+              leading: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.filter_center_focus)),
+              actions: <Widget>[
+                IconButton(
+                  icon: actionIcon,
+                  onPressed: () {
+                    setState(() {
+                      if (actionIcon.icon == Icons.search) {
+                        actionIcon = const Icon(Icons.close);
+                        appBarTitle = const TextField(
+                          style: TextStyle(
+                            color: primaryColor,
+                          ),
+                          decoration: InputDecoration(
+                              prefixIcon:
+                                  Icon(Icons.search, color: primaryColor),
+                              hintText: "Search...",
+                              hintStyle: TextStyle(color: textColor)),
+                        );
+                      } else {
+                        actionIcon = const Icon(Icons.search);
+                        appBarTitle = const Text("");
+                      }
+                    });
+                  },
+                ),
+              ]),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Obx(
+                () => bannerListController.isLoading.value
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Expanded(
+                        flex: 2,
+                        child: Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                var banner_id = bannerListController
+                                    .bannerList?.data?[activeIndex].bannerId;
+                                var banner_title = bannerListController
+                                    .bannerList?.data?[activeIndex].bannerName;
+                                var banner_details = bannerListController
+                                    .bannerList
+                                    ?.data?[activeIndex]
+                                    .bannerDetail;
+                                var banner_image = bannerListController
+                                    .bannerList?.data?[activeIndex].imageUrl;
+
+                                Get.to(const BannerDetails(), arguments: [
+                                  banner_id,
+                                  banner_title,
+                                  banner_details,
+                                  banner_image
+                                ]);
+                              },
+                              child: CarouselSlider.builder(
+                                itemCount: bannerListController
+                                    .bannerList!.data!.length,
+                                itemBuilder: (BuildContext context,
+                                        int itemIndex, int pageViewIndex) =>
+                                    ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    fit: BoxFit.cover,
+                                    height: double.infinity,
+                                    width: double.infinity,
+                                    alignment: Alignment.center,
+                                    bannerListController.bannerList
+                                            ?.data![itemIndex].imageUrl ??
+                                        '',
+                                  ),
+                                ),
+                                options: CarouselOptions(
+                                  height: Get.height,
+                                  enlargeCenterPage: true,
+                                  autoPlay: true,
+                                  autoPlayInterval: const Duration(seconds: 5),
+                                  autoPlayAnimationDuration:
+                                      const Duration(seconds: 2),
+                                  onPageChanged: (index, reason) {
+                                    setState(() {
+                                      activeIndex = index;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: AnimatedSmoothIndicator(
+                                activeIndex: activeIndex,
+                                count: bannerListController
+                                    .bannerList!.data!.length,
+                                effect: ExpandingDotsEffect(
+                                    dotColor: Colors.grey,
+                                    activeDotColor: dient),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+              ),
+              Obx(
+                () => appController.isLoading1.value
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(top: 8, right: 8, left: 8),
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: Get.width,
+                            height: Get.height,
+                            child: HorizontalListView(
+                              width: double.maxFinite,
+                              height: Get.width,
+                              list: _itemsComponent(),
+                              // iconPrevious: const Icon(
+                              //   Icons.arrow_back_ios,
+                              //   color: Colors.red,
+                              // ),
+                              // iconNext: const Icon(
+                              //   Icons.arrow_forward_ios,
+                              //   color: Colors.red,
+                              // ),
+                              isStartedFromEnd: false,
+                              itemWidth: 200,
+                              onChanged: (index) {
+                                print(index);
+                              },
+                              onPreviousPressed: () {
+                                //DO WHAT YOU WANT ON PREVIOUS PRESSED
+                                log('onPreviousPressed');
+                              },
+                              onNextPressed: () {
+                                //DO WHAT YOU WANT ON NEXT PRESSED
+                                log('onNextPressed');
+                              },
+                            ),
+                          ),
+                        )),
+              ),
+              Obx(() => feedController.isLoading.value
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Expanded(
+                      flex: 4,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 8, left: 8, right: 8, bottom: 8),
+                        child: MediaQuery.removePadding(
+                          context: context,
+                          removeTop: true,
+                          child: Obx(() => feedController.isLoading.value
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : GridView.builder(
+                                  gridDelegate:
+                                      const SliverGridDelegateWithMaxCrossAxisExtent(
+                                          maxCrossAxisExtent: 150,
+                                          childAspectRatio: 2 / 2,
+                                          crossAxisSpacing: 8,
+                                          mainAxisSpacing: 8),
+                                  itemCount: feedController.feed?.data?.length,
+                                  itemBuilder: (BuildContext ctx, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        var feed_id = feedController
+                                            .feed?.data?[index].feedId;
+                                        var feed_title = feedController
+                                            .feed?.data?[index].feedTitle;
+                                        var feed_details = feedController
+                                            .feed?.data?[index].feedDetail;
+                                        var feed_image = feedController
+                                            .feed?.data?[index].imageUrl;
+
+                                        Get.to(const FeedDetails(), arguments: [
+                                          feed_id,
+                                          feed_title,
+                                          feed_details,
+                                          feed_image
+                                        ]);
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                            color: icolor,
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        child: Image.network(
+                                          fit: BoxFit.fill,
+                                          height: double.infinity,
+                                          width: double.infinity,
+                                          alignment: Alignment.center,
+                                          feedController.feed?.data![index]
+                                                  .imageUrl ??
+                                              '',
+                                        ),
+                                      ),
+                                    );
+                                  })),
+                        ),
+                      ),
+                    ))
+            ],
+          )),
+    );
+  }
+}

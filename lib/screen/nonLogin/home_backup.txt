@@ -1,0 +1,176 @@
+// ignore_for_file: invalid_use_of_protected_member
+
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:itecc_member/controller/icon_and_background_controller.dart';
+import 'package:itecc_member/controller/news_controller.dart';
+
+import 'package:itecc_member/style/color.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class Home extends StatelessWidget {
+  Home({super.key});
+  AppController appController = Get.put(AppController());
+  NewsController newController = Get.put(NewsController());
+  // final List<Map> myProducts =
+  //     List.generate(6, (index) => {"id": index, "name": "Product $index"})
+  //         .toList();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        // appBar: AppBar(title: const Text('Home')),
+        body: SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            height: Get.height * 0.52,
+            width: Get.width,
+            child: Obx(
+              () => appController.isLoading.value && appController.isLoading1.value
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : ListView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        Container(
+                          height: Get.height * 0.3,
+                          width: Get.width,
+                          color: icolor,
+                          child: Image.memory(
+                            fit: BoxFit.cover,
+                            height: double.infinity,
+                            width: double.infinity,
+                            alignment: Alignment.center,
+                             Base64Decoder().convert(
+                                appController.backgroundImageModel!.bgImage!),
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 8, right: 8, top: 8),
+                          child: SizedBox(
+                            width: Get.width,
+                            height: Get.height * 0.125,
+                            child: Container(
+                              height: Get.height,
+                              width: Get.width,
+                              color: Colors.transparent,
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        ...List.generate(
+                                            appController.applicationListModel!
+                                                .data!.length, (index) {
+                                          return InkWell(
+                                            onTap: () async {
+                                              var url = appController
+                                                  .applicationListModel
+                                                  ?.data![index]
+                                                  .applicationUrl;
+                                              final uri = Uri.parse(url!);
+                                              if (await canLaunchUrl(uri)) {
+                                                await launchUrl(uri);
+                                              } else {
+                                                throw 'Could not launch $url';
+                                              }
+                                              print(index);
+                                            },
+                                            child: Column(
+                                              children: [
+                                                SizedBox(
+                                                  width: 60,
+                                                  height: 60,
+                                                  child: CircleAvatar(
+                                                    radius: 50,
+                                                    backgroundImage:
+                                                        MemoryImage(
+                                                      const Base64Decoder()
+                                                          .convert(appController
+                                                              .applicationListModel!
+                                                              .data![index]
+                                                              .applicationIconImage ?? ''),
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Text(
+                                                  appController
+                                                      .applicationListModel!
+                                                      .data![index]
+                                                      .applicationName!,
+                                                  style: const TextStyle(
+                                                    color: textColor,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }),
+                                      ],
+                                    ),
+                                  ]),
+                            ),
+                          ),
+                        ),
+                 
+                      ],
+                    ),
+            ),
+          ),
+          Container(
+            height: Get.height * 0.40,
+            width: Get.width,
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
+              child: MediaQuery.removePadding(
+                context: context,
+                removeTop: true,
+                child: Obx(
+              () => newController.isLoading.value
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 200,
+                            childAspectRatio: 2 / 2,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8),
+                    itemCount: newController.newListModel?.data?.length,
+                    itemBuilder: (BuildContext ctx, index) {
+                      return Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: icolor,
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Image.network(
+                            fit: BoxFit.fill,
+                            height: double.infinity,
+                            width: double.infinity,
+                            alignment: Alignment.center,
+                          
+                                newController.newListModel?.data![index]
+                               .ImageURL ?? '',
+                          ),
+                      );
+                    })),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ));
+  }
+}

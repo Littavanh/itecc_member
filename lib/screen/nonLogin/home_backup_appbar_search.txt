@@ -1,0 +1,214 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:horizontal_list/horizontal_list.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../controller/icon_and_background_controller.dart';
+import '../../controller/news_controller.dart';
+import '../../style/color.dart';
+
+class Home extends StatelessWidget {
+  const Home({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    AppController appController = Get.put(AppController());
+    NewsController newController = Get.put(NewsController());
+    final TextEditingController _searchController = TextEditingController();
+    List<Widget> _itemsComponent() {
+      List<Widget> myList = [];
+      for (var i = 0;
+          i < appController.applicationListModel!.data!.length;
+          i++) {
+        myList.add(InkWell(
+          onTap: () async {
+            var url =
+                appController.applicationListModel?.data![i].applicationUrl;
+            final uri = Uri.parse(url!);
+            if (await canLaunchUrl(uri)) {
+              await launchUrl(uri);
+            } else {
+              throw 'Could not launch $url';
+            }
+            print(i);
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 60,
+                height: 60,
+                child: CircleAvatar(
+                  backgroundImage: MemoryImage(
+                    const Base64Decoder().convert(appController
+                            .applicationListModel!
+                            .data![i]
+                            .applicationIconImage ??
+                        ''),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Text(
+                appController.applicationListModel!.data![i].applicationName!,
+                style: const TextStyle(
+                  color: textColor,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        ));
+      }
+      return myList;
+    }
+
+    return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          title: Container(
+            width: Get.width,
+            height: 40,
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(5)),
+            child: Padding(padding: EdgeInsets.only(left: 5,bottom: 5),
+              child: TextFormField(
+                controller: _searchController,
+                style: TextStyle(color: Colors.black),
+                decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: () {
+                        /* Clear the search field */
+                      },
+                    ),
+                    border: InputBorder.none),
+              ),
+            ),
+          ),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+              onPressed: () {}, icon: Icon(Icons.filter_center_focus)),
+          actions: [
+            IconButton(onPressed: () {}, icon: Icon(Icons.message)),
+          ],
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Obx(() => appController.isLoading.value
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Expanded(
+                    flex: 2,
+                    child: Container(
+                      decoration: BoxDecoration(),
+                      child: Image.memory(
+                        fit: BoxFit.cover,
+                        height: double.infinity,
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        Base64Decoder().convert(
+                            appController.backgroundImageModel!.bgImage!),
+                      ),
+                    ),
+                  )),
+            Obx(
+              () => appController.isLoading1.value
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Expanded(
+                      flex: 1,
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: double.maxFinite,
+                        height: Get.height,
+                        child: HorizontalListView(
+                          width: double.maxFinite,
+                          height: Get.width,
+                          list: _itemsComponent(),
+                          // iconPrevious: const Icon(
+                          //   Icons.arrow_back_ios,
+                          //   color: Colors.red,
+                          // ),
+                          // iconNext: const Icon(
+                          //   Icons.arrow_forward_ios,
+                          //   color: Colors.red,
+                          // ),
+                          isStartedFromEnd: false,
+                          itemWidth: 200,
+                          onChanged: (index) {
+                            print(index);
+                          },
+                          onPreviousPressed: () {
+                            //DO WHAT YOU WANT ON PREVIOUS PRESSED
+                            log('onPreviousPressed');
+                          },
+                          onNextPressed: () {
+                            //DO WHAT YOU WANT ON NEXT PRESSED
+                            log('onNextPressed');
+                          },
+                        ),
+                      )),
+            ),
+            Obx(() => newController.isLoading.value
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Expanded(
+                    flex: 3,
+                    child: Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 8, left: 8, right: 8, bottom: 8),
+                        child: MediaQuery.removePadding(
+                          context: context,
+                          removeTop: true,
+                          child: Obx(() => newController.isLoading.value
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : GridView.builder(
+                                  gridDelegate:
+                                      const SliverGridDelegateWithMaxCrossAxisExtent(
+                                          maxCrossAxisExtent: 200,
+                                          childAspectRatio: 2 / 2,
+                                          crossAxisSpacing: 8,
+                                          mainAxisSpacing: 8),
+                                  itemCount:
+                                      newController.newListModel?.data?.length,
+                                  itemBuilder: (BuildContext ctx, index) {
+                                    return Container(
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          color: icolor,
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      child: Image.network(
+                                        fit: BoxFit.fill,
+                                        height: double.infinity,
+                                        width: double.infinity,
+                                        alignment: Alignment.center,
+                                        newController.newListModel?.data![index]
+                                                .ImageURL ??
+                                            '',
+                                      ),
+                                    );
+                                  })),
+                        ),
+                      ),
+                    ),
+                  ))
+          ],
+        ));
+  }
+}
