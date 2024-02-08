@@ -11,7 +11,7 @@ import UserNotifications
     GeneratedPluginRegistrant.register(with: self)
     // set the delegate in didFinishLaunchingWithOptions
     if #available(iOS 10.0, *) {
-  UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
+  UNUserNotificationCenter.current().delegate = self 
 }
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
