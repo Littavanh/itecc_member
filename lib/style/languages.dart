@@ -5,13 +5,14 @@ class Languages extends Translations {
   // TODO: implement keys
   Map<String, Map<String, String>> get keys => {
         'en_US': {
-          'ເຂົ້າສູ່ລະບົບ': 'Login',
+          'ເຂົ້າສູ່ລະບົບ': 'Logine',
         },
         'lo': {
           'ເຂົ້າສູ່ລະບົບ': 'ເຂົ້າສູ່ລະບົບ',
         },
       };
 }
+
 class Language {
   final int id;
   final String name;
@@ -28,4 +29,3 @@ class Language {
     ];
   }
 }
-
