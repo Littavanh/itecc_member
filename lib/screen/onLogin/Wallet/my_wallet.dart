@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:itecc_member/screen/onLogin/Wallet/qr_image.dart';
+import 'package:itecc_member/screen/onLogin/Wallet/scan_qr_code_with_fromImage.dart';
 import 'package:itecc_member/screen/onLogin/Wallet/scan_qrcode.dart';
 
 import '../../../component/component.dart';
@@ -212,7 +213,7 @@ class _MyWalletState extends State<MyWallet> {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.to(ScanQrcode());
+                     Get.to(CamView());
                   },
                   focusColor: icolor,
                   borderRadius: BorderRadius.circular(10),

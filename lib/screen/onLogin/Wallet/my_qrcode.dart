@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -59,9 +60,13 @@ class _MyQrCodeState extends State<MyQrCode> {
                     height: 120,
                     child: CircleAvatar(
                       radius: 50,
-                      backgroundImage: MemoryImage(
-                        scale: 1,
-                        Base64Decoder().convert(box.read('userImage')),
+                      child: ClipOval(
+                        child: CachedNetworkImage(
+                          imageUrl: box.read('userImage'),
+                          fit: BoxFit.cover,
+                          width: 120,
+                          height: 120,
+                        ),
                       ),
                     ),
                   ),
@@ -105,8 +110,7 @@ class _MyQrCodeState extends State<MyQrCode> {
                             data: box.read('userId'),
                             decoration: const PrettyQrDecoration(
                               image: PrettyQrDecorationImage(
-                                  image: AssetImage(
-                                      'assets/images/logo Member1.png'),
+                                  image: AssetImage('assets/logo/Member23.png'),
                                   position:
                                       PrettyQrDecorationImagePosition.embedded),
                               shape: PrettyQrSmoothSymbol(
