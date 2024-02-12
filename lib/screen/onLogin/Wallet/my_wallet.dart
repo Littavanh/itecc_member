@@ -202,10 +202,7 @@ class _MyWalletState extends State<MyWallet> {
             ],
           ),
         ),
-        const Divider(
-          color: Colors.black, // The color to use when painting the line.
-          // The divider's height extent.
-        ),
+       
         SizedBox(
           height: Get.height,
           width: Get.width,
