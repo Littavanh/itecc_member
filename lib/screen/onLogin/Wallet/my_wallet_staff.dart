@@ -24,7 +24,7 @@ class MyWalletStaff extends StatefulWidget {
 }
 
 class _MyWalletStaffState extends State<MyWalletStaff> {
-   UserBalanceInfoController userBalanceInfoController =
+  UserBalanceInfoController userBalanceInfoController =
       Get.put(UserBalanceInfoController());
   Future<void> refreshBalance() async {
     await userBalanceInfoController.fetchUserBalanceInfo();
@@ -43,7 +43,7 @@ class _MyWalletStaffState extends State<MyWalletStaff> {
   @override
   Widget build(BuildContext context) {
     final EyeController eyeController = Get.put(EyeController());
-   
+
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(
@@ -218,7 +218,6 @@ class _MyWalletStaffState extends State<MyWalletStaff> {
             ],
           ),
         ),
-      
         SizedBox(
           height: Get.height,
           width: Get.width,
