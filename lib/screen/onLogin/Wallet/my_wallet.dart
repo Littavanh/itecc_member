@@ -6,11 +6,13 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:itecc_member/screen/onLogin/Wallet/qr_image.dart';
 import 'package:itecc_member/screen/onLogin/Wallet/scan_qr_code_with_fromImage.dart';
+import 'package:itecc_member/screen/onLogin/Wallet/scan_qr_code_with_fromImage_personal.dart';
 import 'package:itecc_member/screen/onLogin/Wallet/scan_qrcode.dart';
 
 import '../../../component/component.dart';
 import '../../../controller/eye_controller.dart';
 import '../../../controller/user_balance_info_controller.dart';
+import '../../../services/todo_services.dart';
 import '../../../style/color.dart';
 import 'my_qrcode.dart';
 
@@ -148,7 +150,7 @@ class _MyWalletState extends State<MyWallet> {
                                                 fontSize: 14))
                                         : TextSpan(
                                             text:
-                                                '${userBalanceInfoController.userBalanceInfo!.personalBalance.toString()} ₭',
+                                                '${fm.format(userBalanceInfoController.userBalanceInfo!.personalBalance)} ₭',
                                             style: const TextStyle(
                                                 color: textColor,
                                                 fontFamily: 'NotoSansLao',
@@ -203,7 +205,6 @@ class _MyWalletState extends State<MyWallet> {
             ],
           ),
         ),
-       
         SizedBox(
           height: Get.height,
           width: Get.width,
@@ -213,7 +214,7 @@ class _MyWalletState extends State<MyWallet> {
               children: [
                 InkWell(
                   onTap: () {
-                     Get.to(CamView());
+                    Get.to(CamViewPersonal());
                   },
                   focusColor: icolor,
                   borderRadius: BorderRadius.circular(10),

@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'package:itecc_member/screen/onLogin/Wallet/pin_auth_screen.dart';
+import 'package:itecc_member/screen/onLogin/Wallet/pin_auth_screen_personal.dart';
 
 import '../../../controller/request_payment_staff.dart';
 import '../../../style/color.dart';
@@ -242,7 +243,7 @@ class InputAmount extends StatelessWidget {
                             // your process task ahed if all data are valid
                             print(amountController.text);
                             print('checkPin');
-                            Get.to(PinAuthScreen(),
+                            Get.to(PinAuthScreenPersonal(),
                                 arguments: [shopCode, amountController.text,shopName]);
                           }
                         },
