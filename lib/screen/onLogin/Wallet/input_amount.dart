@@ -243,7 +243,7 @@ class InputAmount extends StatelessWidget {
                             // your process task ahed if all data are valid
                             print(amountController.text);
                             print('checkPin');
-                            Get.to(PinAuthScreenPersonal(),
+                            Get.to(PinAuthScreen(),
                                 arguments: [shopCode, amountController.text,shopName]);
                           }
                         },

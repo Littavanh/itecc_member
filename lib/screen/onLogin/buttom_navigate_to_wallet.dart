@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_icon/flutter_dynamic_icon.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -20,16 +19,16 @@ import '../../controller/news_controller.dart';
 
 final box = GetStorage();
 
-class ButtomNavigate extends StatefulWidget {
-  const ButtomNavigate({super.key});
+class ButtomNavigateToWallet extends StatefulWidget {
+  const ButtomNavigateToWallet({super.key});
 
   @override
-  State<ButtomNavigate> createState() => _ButtomNavigateState();
+  State<ButtomNavigateToWallet> createState() => _ButtomNavigateToWalletState();
 }
 
-class _ButtomNavigateState extends State<ButtomNavigate> {
+class _ButtomNavigateToWalletState extends State<ButtomNavigateToWallet> {
   // StreamSocket stream = StreamSocket();
-  int currentPageIndex = 0;
+  int currentPageIndex = 2;
   void _onItemTapped(int index) {
     setState(() {
       currentPageIndex = index;
@@ -42,9 +41,7 @@ class _ButtomNavigateState extends State<ButtomNavigate> {
 
   @override
   void initState() {
-    
-    
-    refreshNews();
+     refreshNews();
     refreshUserTran();
     // a = box.read('newsUnread');
     // b = box.read('tranUnread');
@@ -52,6 +49,7 @@ class _ButtomNavigateState extends State<ButtomNavigate> {
     // c = a + b;
     // TODO: implement initState
     super.initState();
+   
 
     // FlutterDynamicIcon.setApplicationIconBadgeNumber(c);
 

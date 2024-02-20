@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -88,7 +89,10 @@ Future<void> main() async {
   HttpOverrides.global = MyHttpOverrides();
 
   runApp(const MyApp());
+
 }
+
+
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -384,6 +388,7 @@ class _MyAppState extends State<MyApp> {
       fallbackLocale: Locale('en', 'US'),
       initialBinding: RootBinding(),
       home: SlapScreen(),
+      builder: EasyLoading.init(),
     );
   }
 }

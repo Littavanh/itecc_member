@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:itecc_member/screen/onLogin/buttom_navigate.dart';
+import 'package:itecc_member/screen/onLogin/buttom_navigate_to_wallet.dart';
 import 'package:itecc_member/style/color.dart';
 import 'package:itecc_member/style/textstyle.dart';
 
@@ -49,8 +51,6 @@ class _CompletePaymentState extends State<CompletePayment>
     // var descript = argumentsData[4];
     var transactionDate = argumentsData[5];
     var transactionTime = argumentsData[6];
-
-   
 
     var userId = box.read('userId');
     var fullName = box.read('fullName');
@@ -303,7 +303,7 @@ class _CompletePaymentState extends State<CompletePayment>
             flex: 1,
             child: InkWell(
               onTap: () {
-                Get.offAll(ButtomNavigate());
+                Get.offAll(ButtomNavigateToWallet());
               },
               child: Container(
                 decoration: const BoxDecoration(
