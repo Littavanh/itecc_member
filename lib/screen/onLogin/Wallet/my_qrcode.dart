@@ -107,7 +107,7 @@ class _MyQrCodeState extends State<MyQrCode> {
                           padding: const EdgeInsets.all(16.0),
                           child: PrettyQrView.data(
                             errorCorrectLevel: QrErrorCorrectLevel.H,
-                            data: box.read('userId'),
+                            data: box.read('userName'),
                             decoration: const PrettyQrDecoration(
                               image: PrettyQrDecorationImage(
                                   image: AssetImage('assets/logo/Member23.png'),

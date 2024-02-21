@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -25,7 +24,8 @@ class RequestPaymentPersonalController extends GetxController {
   Future<void> postRequestPaymentPersonal(
       {required String shopCode,
       required String requestAmount,
-      required String descript,required String paymentCode}) async {
+      required String descript,
+      required String paymentCode}) async {
     // var transactionNoFormat = DateFormat('yyMMddHHmmss');
     // var transactionNo = transactionNoFormat.format(DateTime.now());
     // var transactionCode = transactionNo + userID;
@@ -35,58 +35,57 @@ class RequestPaymentPersonalController extends GetxController {
     var transactionTimeFormat = DateFormat("HH:mm:ss");
     var transactionTime = transactionTimeFormat.format(DateTime.now());
     // try {
-      http.Response response =
-          await http.post(Uri.tryParse('$url/Payment/requestPaymentPersonal')!,
-              headers: {'Content-Type': 'application/json'},
-              body: jsonEncode({
-                "userID": userID,
-                "tokenKey": tokenKey,
-                "transactionCode": paymentCode,
-                "shopCode": shopCode,
-                "requestAmount": requestAmount,
-                "descript": descript
-              }));
-      if (response.statusCode == 200) {
-        ///data successfully
-        var json = jsonDecode(response.body);
-         
+    http.Response response =
+        await http.post(Uri.tryParse('$url/Payment/requestPaymentPersonal')!,
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({
+              "userID": userID,
+              "tokenKey": tokenKey,
+              "transactionCode": paymentCode,
+              "shopCode": shopCode,
+              "requestAmount": requestAmount,
+              "descript": descript
+            }));
+    print(
+        "userID: $userID,tokenKey: $tokenKey, transactionCode: $paymentCode,shopcode: $shopCode, requestAmount: $requestAmount, descript: $descript");
+    if (response.statusCode == 200) {
+      ///data successfully
+      var json = jsonDecode(response.body);
 
-        if (json['statusCode'] == 200) {
-          
-          final requestPaymentPersonal = RequestPaymentPersonal.fromJson(json);
-          print(
-              'requestPaymentPersonal: ${requestPaymentPersonal.toJson().toString()}');
+      if (json['statusCode'] == 200) {
+        final requestPaymentPersonal = RequestPaymentPersonal.fromJson(json);
+        print(
+            'requestPaymentPersonal: ${requestPaymentPersonal.toJson().toString()}');
 
-          // Get.to(InputAmount(), arguments: [shop.shopCode, shop.shopName]);
+        // Get.to(InputAmount(), arguments: [shop.shopCode, shop.shopName]);
 
-          Get.offAll(CompletePayment(), arguments: [
-            requestPaymentPersonal.shopCode,
-            requestPaymentPersonal.shopName,
-            requestPaymentPersonal.requestAmount,
-            requestPaymentPersonal.paymentCode,
-            descript,
-            transactionDate,
-            transactionTime
-            
-          ]);
-        } else {
-          final requestPaymentPersonal = RequestPaymentPersonal.fromJson(json);
-          print(
-              'requestPaymentPersonal: ${requestPaymentPersonal.toJson().toString()}');
-          Get.showSnackbar(
-            GetSnackBar(
-              backgroundColor: gra,
-              title: 'ແຈ້ງເຕືອນ',
-              message: json['message'],
-              icon: Icon(Icons.warning_amber_outlined),
-              duration: Duration(seconds: 3),
-            ),
-          );
-          // Get.offAll(ButtomNavigate());
-        }
+        Get.offAll(CompletePayment(), arguments: [
+          requestPaymentPersonal.shopCode,
+          requestPaymentPersonal.shopName,
+          requestPaymentPersonal.requestAmount,
+          requestPaymentPersonal.paymentCode,
+          descript,
+          transactionDate,
+          transactionTime
+        ]);
       } else {
-        print('error fetching data');
+        final requestPaymentPersonal = RequestPaymentPersonal.fromJson(json);
+        print(
+            'requestPaymentPersonal: ${requestPaymentPersonal.toJson().toString()}');
+        Get.showSnackbar(
+          GetSnackBar(
+            backgroundColor: gra,
+            title: 'ແຈ້ງເຕືອນ',
+            message: json['message'],
+            icon: Icon(Icons.warning_amber_outlined),
+            duration: Duration(seconds: 3),
+          ),
+        );
+        // Get.offAll(ButtomNavigate());
       }
+    } else {
+      print('error fetching data');
+    }
     // } catch (e) {
     //   print('Error while getting data is $e');
     //   // Get.showSnackbar(
@@ -98,7 +97,7 @@ class RequestPaymentPersonalController extends GetxController {
     //   //     duration: Duration(seconds: 3),
     //   //   ),
     //   // );
-    // } 
+    // }
     // finally {
 
     // }

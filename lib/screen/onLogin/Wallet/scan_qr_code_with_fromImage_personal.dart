@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:itecc_member/controller/scan_qrcode_shop_personal.dart';
 import 'package:itecc_member/style/color.dart';
 import 'package:perfect_scanner/perfect_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -15,8 +16,8 @@ class CamViewPersonal extends StatefulWidget {
 
 class _CamViewPersonalState extends State<CamViewPersonal> {
   bool isFlashOn = false;
-  ScanQrCodeShopController scanQrCodeShopController =
-      Get.put(ScanQrCodeShopController());
+  ScanQrCodeShopPersonalController scanQrCodeShopController =
+      Get.put(ScanQrCodeShopPersonalController());
   @override
   void initState() {
     permissionHandler();

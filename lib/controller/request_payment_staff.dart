@@ -47,15 +47,14 @@ class RequestPaymentStaffController extends GetxController {
               "requestAmount": requestAmount,
               "descript": descript
             }));
-          
 
+    print(
+        "userID: $userID,tokenKey: $tokenKey, transactionCode: $paymentCode,shopcode: $shopCode, requestAmount: $requestAmount, descript: $descript");
     if (response.statusCode == 200) {
       ///data successfully
       var json = jsonDecode(response.body);
 
       if (json['statusCode'] == 200) {
-       
-      
         final requestPaymentStaff = RequestPaymentStaff.fromJson(json);
         print(
             'requestPaymentStaff: ${requestPaymentStaff.toJson().toString()}');

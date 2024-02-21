@@ -98,7 +98,7 @@ class CheckPinPersonalController extends GetxController {
                 requestPaymentPersonalController.postRequestPaymentPersonal(
                     shopCode: shopCode,
                     requestAmount: amount,
-                    descript: "pay",
+                    descript: "pay personal",
                     paymentCode: checkpinModel.paymentCode.toString());
               },
               style: ElevatedButton.styleFrom(
