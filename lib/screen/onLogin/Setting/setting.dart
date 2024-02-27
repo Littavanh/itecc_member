@@ -15,6 +15,7 @@ import 'package:itecc_member/screen/onLogin/Setting/edit_profile.dart';
 
 import '../../../services/auto_login.dart';
 import '../../../style/color.dart';
+import '../Wallet/cancel_payment.dart';
 
 final box = GetStorage();
 
@@ -61,16 +62,16 @@ class _SettingState extends State<Setting> {
                         ? Icon(Icons.account_circle_outlined,
                             size: 120, color: dient)
                         : CircleAvatar(
-                          radius: 50,
-                          child: ClipOval(
-                            child: CachedNetworkImage(
-                              imageUrl: box.read('userImage'),
-                             fit: BoxFit.cover,
-                              width: 120,
-                              height: 120,
+                            radius: 50,
+                            child: ClipOval(
+                              child: CachedNetworkImage(
+                                imageUrl: box.read('userImage'),
+                                fit: BoxFit.cover,
+                                width: 120,
+                                height: 120,
+                              ),
                             ),
                           ),
-                        ),
                     SizedBox(
                       width: 20,
                     ),
@@ -225,7 +226,7 @@ class _SettingState extends State<Setting> {
             style: TextStyle(color: Colors.black),
           ),
           onTap: () {
-           Get.to( PinAuthScreen());
+            Get.to(PinAuthScreen());
           },
         ),
         ListTile(
@@ -257,6 +258,18 @@ class _SettingState extends State<Setting> {
             Get.to(About());
           },
         ),
+        // ListTile(
+        //   leading: Icon(Icons.info_outline_rounded, color: Colors.black),
+        //   title: const Text(
+        //     "test",
+        //     style: TextStyle(color: Colors.black),
+        //   ),
+        //   onTap: () {
+        //     Get.offAll(CancelPayment(), arguments: [
+        //       ''
+        //     ]);
+        //   },
+        // ),
         ListTile(
           leading: Icon(Icons.logout_rounded, color: Colors.black),
           title: const Text(
@@ -291,8 +304,7 @@ class _SettingState extends State<Setting> {
                   box.remove('staffWalet');
                   box.remove('personalWalet');
 
-                  final remember =
-                      AutoLogin(tokenKey: '', rememberMe: false);
+                  final remember = AutoLogin(tokenKey: '', rememberMe: false);
                   remember.setUser();
 
                   Get.offAll(HomePage());

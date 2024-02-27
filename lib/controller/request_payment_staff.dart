@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:itecc_member/screen/onLogin/Wallet/cancel_payment.dart';
 import 'package:itecc_member/screen/onLogin/Wallet/complete_payment.dart';
 
 import '../services/todo_services.dart';
@@ -47,14 +48,30 @@ class RequestPaymentStaffController extends GetxController {
               "requestAmount": requestAmount,
               "descript": descript
             }));
+    EasyLoading.instance
+      ..displayDuration = const Duration(milliseconds: 2000)
+      ..loadingStyle = EasyLoadingStyle.custom
+      ..indicatorSize = 60
+      ..textColor = dient
+      ..indicatorColor = dient
+      ..maskColor = dient
+      ..backgroundColor = Colors.transparent
+      ..boxShadow = []
+      ..userInteractions = false
+      ..dismissOnTap = false
+      ..indicatorType = EasyLoadingIndicatorType.circle;
+    EasyLoading.show();
 
-    print(
-        "userID: $userID,tokenKey: $tokenKey, transactionCode: $paymentCode,shopcode: $shopCode, requestAmount: $requestAmount, descript: $descript");
+    // print(
+    //     "userID: $userID,tokenKey: $tokenKey, transactionCode: $paymentCode,shopcode: $shopCode, requestAmount: $requestAmount, descript: $descript");
     if (response.statusCode == 200) {
       ///data successfully
       var json = jsonDecode(response.body);
 
       if (json['statusCode'] == 200) {
+        Future.delayed(Duration(seconds: 2), () {
+          EasyLoading.dismiss();
+        });
         final requestPaymentStaff = RequestPaymentStaff.fromJson(json);
         print(
             'requestPaymentStaff: ${requestPaymentStaff.toJson().toString()}');
@@ -72,17 +89,14 @@ class RequestPaymentStaffController extends GetxController {
         ]);
       } else {
         final requestPaymentStaff = RequestPaymentStaff.fromJson(json);
-        print(
-            'requestPaymentStaff: ${requestPaymentStaff.toJson().toString()}');
-        Get.showSnackbar(
-          GetSnackBar(
-            backgroundColor: gra,
-            title: 'ແຈ້ງເຕືອນ',
-            message: json['message'],
-            icon: Icon(Icons.warning_amber_outlined),
-            duration: Duration(seconds: 3),
-          ),
-        );
+        Future.delayed(Duration(seconds: 2), () {
+          EasyLoading.dismiss();
+          Get.offAll(CancelPayment(), arguments: [json['message']]);
+        });
+
+        // print(
+        //     'requestPaymentStaff: ${requestPaymentStaff.toJson().toString()}');
+
         // Get.offAll(ButtomNavigate());
       }
     } else {

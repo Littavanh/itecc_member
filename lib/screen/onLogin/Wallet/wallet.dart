@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:itecc_member/screen/onLogin/Wallet/my_wallet.dart';
@@ -127,6 +128,7 @@ class Wallet extends StatelessWidget {
                     ? Component(
                         child: InkWell(
                           onTap: () {
+                           
                             Get.to(MyWalletStaff());
                           },
                           focusColor: icolor,

@@ -28,7 +28,7 @@ class _CompletePaymentState extends State<CompletePayment>
   @override
   void initState() {
     super.initState();
-
+    
     tickController = AnimationController(vsync: this);
     // tickController.reset();
     // tickController.forward();

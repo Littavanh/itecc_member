@@ -1,3 +1,4 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
@@ -7,6 +8,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:itecc_member/screen/onLogin/Wallet/cancel_payment.dart';
 import 'package:itecc_member/screen/onLogin/Wallet/complete_payment.dart';
 
 import '../model/request_payment_personal.dart';
@@ -46,41 +48,50 @@ class RequestPaymentPersonalController extends GetxController {
               "requestAmount": requestAmount,
               "descript": descript
             }));
-    print(
-        "userID: $userID,tokenKey: $tokenKey, transactionCode: $paymentCode,shopcode: $shopCode, requestAmount: $requestAmount, descript: $descript");
+    EasyLoading.instance
+      ..displayDuration = const Duration(milliseconds: 2000)
+      ..loadingStyle = EasyLoadingStyle.custom
+      ..indicatorSize = 60
+      ..textColor = dient
+      ..indicatorColor = dient
+      ..maskColor = dient
+      ..backgroundColor = Colors.transparent
+      ..boxShadow = []
+      ..userInteractions = false
+      ..dismissOnTap = false
+      ..indicatorType = EasyLoadingIndicatorType.circle;
+    EasyLoading.show();
+    // print(
+    //     "userID: $userID,tokenKey: $tokenKey, transactionCode: $paymentCode,shopcode: $shopCode, requestAmount: $requestAmount, descript: $descript");
     if (response.statusCode == 200) {
       ///data successfully
       var json = jsonDecode(response.body);
-
+      final requestPaymentPersonal = RequestPaymentPersonal.fromJson(json);
+      print(
+          'requestPaymentPersonal: ${requestPaymentPersonal.toJson().toString()}');
       if (json['statusCode'] == 200) {
-        final requestPaymentPersonal = RequestPaymentPersonal.fromJson(json);
-        print(
-            'requestPaymentPersonal: ${requestPaymentPersonal.toJson().toString()}');
+        Future.delayed(Duration(seconds: 2), () {
+          Get.offAll(CompletePayment(), arguments: [
+            requestPaymentPersonal.shopCode,
+            requestPaymentPersonal.shopName,
+            requestPaymentPersonal.requestAmount,
+            requestPaymentPersonal.paymentCode,
+            descript,
+            transactionDate,
+            transactionTime
+          ]);
+          EasyLoading.dismiss();
+        });
 
         // Get.to(InputAmount(), arguments: [shop.shopCode, shop.shopName]);
-
-        Get.offAll(CompletePayment(), arguments: [
-          requestPaymentPersonal.shopCode,
-          requestPaymentPersonal.shopName,
-          requestPaymentPersonal.requestAmount,
-          requestPaymentPersonal.paymentCode,
-          descript,
-          transactionDate,
-          transactionTime
-        ]);
       } else {
         final requestPaymentPersonal = RequestPaymentPersonal.fromJson(json);
-        print(
-            'requestPaymentPersonal: ${requestPaymentPersonal.toJson().toString()}');
-        Get.showSnackbar(
-          GetSnackBar(
-            backgroundColor: gra,
-            title: 'ແຈ້ງເຕືອນ',
-            message: json['message'],
-            icon: Icon(Icons.warning_amber_outlined),
-            duration: Duration(seconds: 3),
-          ),
-        );
+        // print(
+        //     'requestPaymentPersonal: ${requestPaymentPersonal.toJson().toString()}');
+        Future.delayed(Duration(seconds: 2), () {
+          EasyLoading.dismiss();
+          Get.offAll(CancelPayment(), arguments: [json['message']]);
+        });
         // Get.offAll(ButtomNavigate());
       }
     } else {
