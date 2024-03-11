@@ -149,6 +149,7 @@ class _MyAppState extends State<MyApp> {
     } on PlatformException {
       appBadgeSupported = 'Failed to get badge support.';
       print(appBadgeSupported);
+      
     }
 
     // If the widget was removed from the tree while the asynchronous platform
