@@ -23,7 +23,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../controller/banner_controller.dart';
 import '../../../controller/feed_controller.dart';
 import '../../../controller/userTransaction_controller.dart';
-import '../Wallet/scan_qrcode.dart';
+
 import 'banner_details.dart';
 import 'icon_details.dart';
 

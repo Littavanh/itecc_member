@@ -5,6 +5,8 @@ import 'package:get_storage/get_storage.dart';
 import '../../../controller/about_controller.dart';
 import '../../../style/color.dart';
 
+final box = GetStorage();
+
 class About extends StatelessWidget {
   About({super.key});
 
@@ -95,7 +97,10 @@ class About extends StatelessWidget {
                               child: Text(
                                 aboutController.aboutModel!.applicationInfo ??
                                     '',
-                                style: TextStyle(color: textColor),
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontFamily: 'NotoSansLao',
+                                ),
                               ),
                             ),
                           ),
@@ -123,19 +128,23 @@ class About extends StatelessWidget {
                                           text: 'ເວີຊັນ: ',
                                           style: TextStyle(
                                               color: textColor,
+                                              fontFamily: 'NotoSansLao',
                                               fontWeight: FontWeight.bold)),
                                       TextSpan(
-                                          text: aboutController.aboutModel!
-                                                  .applicationVersion ??
-                                              '',
+                                          // text: aboutController.aboutModel!
+                                          //         .applicationVersion ??
+                                          //     '',
+
+                                          text: box.read('app_version') ?? '',
                                           style: TextStyle(
                                             color: textColor,
+                                            fontFamily: 'NotoSansLao',
                                           )),
                                     ],
                                   ),
                                 ),
                                 const Divider(),
-                                  RichText(
+                                RichText(
                                   text: TextSpan(
                                     style: TextStyle(
                                       fontSize: 16.0,
@@ -146,6 +155,7 @@ class About extends StatelessWidget {
                                           text: 'ອັບເດດລ່າສຸດ: ',
                                           style: TextStyle(
                                               color: textColor,
+                                              fontFamily: 'NotoSansLao',
                                               fontWeight: FontWeight.bold)),
                                       TextSpan(
                                           text: aboutController.aboutModel!
@@ -153,6 +163,7 @@ class About extends StatelessWidget {
                                               '',
                                           style: TextStyle(
                                             color: textColor,
+                                            fontFamily: 'NotoSansLao',
                                           )),
                                     ],
                                   ),
@@ -169,6 +180,7 @@ class About extends StatelessWidget {
                                           text: 'Owner: ',
                                           style: TextStyle(
                                               color: textColor,
+                                              fontFamily: 'NotoSansLao',
                                               fontWeight: FontWeight.bold)),
                                       TextSpan(
                                           text: aboutController.aboutModel!
@@ -176,6 +188,7 @@ class About extends StatelessWidget {
                                               '',
                                           style: TextStyle(
                                             color: textColor,
+                                            fontFamily: 'NotoSansLao',
                                           )),
                                     ],
                                   ),
@@ -192,6 +205,7 @@ class About extends StatelessWidget {
                                           text: 'CopyRight: © ',
                                           style: TextStyle(
                                               color: textColor,
+                                              fontFamily: 'NotoSansLao',
                                               fontWeight: FontWeight.bold)),
                                       TextSpan(
                                           text: aboutController.aboutModel!
@@ -199,11 +213,36 @@ class About extends StatelessWidget {
                                               '',
                                           style: TextStyle(
                                             color: textColor,
+                                            fontFamily: 'NotoSansLao',
                                           )),
                                     ],
                                   ),
                                 ),
                                 const Divider(),
+                                RichText(
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      color: Colors.black,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                          text: 'Call Center: ',
+                                          style: TextStyle(
+                                              color: textColor,
+                                              fontFamily: 'NotoSansLao',
+                                              fontWeight: FontWeight.bold)),
+                                      TextSpan(
+                                          text: aboutController
+                                                  .aboutModel!.callCenter ??
+                                              '',
+                                          style: TextStyle(
+                                            color: textColor,
+                                            fontFamily: 'NotoSansLao',
+                                          )),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),

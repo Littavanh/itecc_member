@@ -15,6 +15,7 @@ import 'package:itecc_member/screen/onLogin/Setting/setting.dart';
 import 'package:itecc_member/screen/onLogin/Wallet/wallet.dart';
 import 'package:itecc_member/style/color.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:upgrader/upgrader.dart';
 
 import '../../controller/news_controller.dart';
 
@@ -42,8 +43,6 @@ class _ButtomNavigateState extends State<ButtomNavigate> {
 
   @override
   void initState() {
-    
-    
     refreshNews();
     refreshUserTran();
     // a = box.read('newsUnread');
@@ -122,13 +121,17 @@ class _ButtomNavigateState extends State<ButtomNavigate> {
         currentIndex: currentPageIndex, //New
         onTap: _onItemTapped,
       ),
-      body: <Widget>[
-        HomeMain(),
-        MyPoint(),
-        Wallet(),
-        notiScreen.Notification(),
-        Setting(),
-      ][currentPageIndex],
+      body: UpgradeAlert(
+        showIgnore: false,
+        dialogStyle: UpgradeDialogStyle.cupertino,
+        child: <Widget>[
+          HomeMain(),
+          MyPoint(),
+          Wallet(),
+          notiScreen.Notification(),
+          Setting(),
+        ][currentPageIndex],
+      ),
     );
   }
 

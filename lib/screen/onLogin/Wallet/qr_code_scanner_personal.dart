@@ -1,30 +1,29 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:itecc_member/controller/scan_qrcode_shop.dart';
-import 'package:itecc_member/screen/onLogin/Wallet/input_amount.dart';
+
 import 'package:itecc_member/style/color.dart';
+import 'package:perfect_scanner/perfect_scanner.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-class ScanQrcode extends StatefulWidget {
-  const ScanQrcode({Key? key}) : super(key: key);
+import '../../../controller/scan_qrcode_shop_personal.dart';
+
+class QrCodeScannerPersonal extends StatefulWidget {
+  const QrCodeScannerPersonal({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _ScanQrcodeState();
+  State<StatefulWidget> createState() => _QrCodeScannerPersonalState();
 }
 
-ScanQrCodeShopController scanQrCodeShopController =
-    Get.put(ScanQrCodeShopController());
-
-class _ScanQrcodeState extends State<ScanQrcode> {
+class _QrCodeScannerPersonalState extends State<QrCodeScannerPersonal> {
+  ScanQrCodeShopPersonalController scanQrCodeShopController =
+      Get.put(ScanQrCodeShopPersonalController());
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-
+  bool isFlashOn = false;
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
   @override
@@ -39,37 +38,59 @@ class _ScanQrcodeState extends State<ScanQrcode> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [gra, dient],
+        appBar: AppBar(
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [gra, dient],
+              ),
             ),
           ),
+          centerTitle: true,
+          title: Text(
+            'ສະແກນ QR Code',
+            style: TextStyle(color: primaryColor),
+          ),
         ),
-        centerTitle: true,
-        title: Text(
-          'ສະແກນ',
-          style: TextStyle(color: primaryColor),
+        body: Column(
+          children: <Widget>[
+            Expanded(flex: 4, child: _buildQrView(context)),
+          ],
         ),
-      ),
-      body: Column(
-        children: <Widget>[
-          Expanded(flex: 4, child: _buildQrView(context)),
-         
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-     
-        },
-        child: Icon(
-          Icons.image_outlined,
-          size: 30,
-        ),
-        backgroundColor: dient,
-      ),
-    );
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 16, left: 32, right: 32),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              FloatingActionButton(
+                onPressed: () async {
+                  final image = await ScannerController.getQrFromImage();
+                  debugPrint(image);
+                  if (image.isNotEmpty) {
+                    scanQrCodeShopController.scanQRcodeShop(shopCode: image);
+                  }
+                },
+                child: Icon(
+                  Icons.image,
+                  size: 30,
+                ),
+              ),
+              FloatingActionButton(
+                onPressed: () async {
+                  await controller?.toggleFlash();
+
+                  setState(() {});
+                },
+                child: Icon(
+                  isFlashOn ? Icons.flashlight_off : Icons.flashlight_on,
+                  color: Colors.white,
+                  size: 30,
+                ),
+              )
+            ],
+          ),
+        ));
   }
 
   Widget _buildQrView(BuildContext context) {
@@ -105,7 +126,7 @@ class _ScanQrcodeState extends State<ScanQrcode> {
         setState(() {
           result = scanData;
           var value = result!.code;
-          print(result!.code);
+          print(value);
 
           scanQrCodeShopController.scanQRcodeShop(shopCode: value.toString());
         });
@@ -122,8 +143,6 @@ class _ScanQrcodeState extends State<ScanQrcode> {
       );
     }
   }
-
-  
 
   @override
   void dispose() {

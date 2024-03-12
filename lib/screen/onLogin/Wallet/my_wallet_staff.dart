@@ -1,18 +1,16 @@
-import 'dart:convert';
+
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:itecc_member/screen/onLogin/Wallet/scan_qr_code_with_fromImage.dart';
-
-import '../../../component/component.dart';
+import 'package:itecc_member/screen/onLogin/Wallet/qr_code_scanner.dart';
 import '../../../controller/eye_controller.dart';
 import '../../../controller/user_balance_info_controller.dart';
 import '../../../services/todo_services.dart';
 import '../../../style/color.dart';
-import 'scan_qrcode.dart';
+
 
 final box = GetStorage();
 
@@ -227,7 +225,7 @@ class _MyWalletStaffState extends State<MyWalletStaff> {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.to(CamView());
+                    Get.to(QrCodeScanner());
                   },
                   focusColor: icolor,
                   borderRadius: BorderRadius.circular(10),

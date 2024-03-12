@@ -12,10 +12,12 @@ import 'package:itecc_member/controller/user_balance_info_controller.dart';
 import 'package:itecc_member/screen/home_page.dart';
 import 'package:itecc_member/screen/onLogin/Setting/about.dart';
 import 'package:itecc_member/screen/onLogin/Setting/edit_profile.dart';
+import 'package:itecc_member/screen/onLogin/Wallet/qr_code_scanner.dart';
 
 import '../../../services/auto_login.dart';
 import '../../../style/color.dart';
 import '../Wallet/cancel_payment.dart';
+import '../Wallet/qr_code_scanner.dart';
 
 final box = GetStorage();
 
@@ -265,9 +267,7 @@ class _SettingState extends State<Setting> {
         //     style: TextStyle(color: Colors.black),
         //   ),
         //   onTap: () {
-        //     Get.offAll(CancelPayment(), arguments: [
-        //       ''
-        //     ]);
+        //     Get.to(QrCodeScanner());
         //   },
         // ),
         ListTile(

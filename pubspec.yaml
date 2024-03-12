@@ -75,6 +75,8 @@ dependencies:
   permission_handler: ^11.0.0
   perfect_scanner: ^0.0.5
   flutter_easyloading: ^3.0.5
+  upgrader: ^9.0.0
+  
 
   
   

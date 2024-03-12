@@ -22,6 +22,7 @@ import 'package:itecc_member/screen/slapscreen.dart';
 import 'package:itecc_member/style/color.dart';
 import 'package:itecc_member/style/languages.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:upgrader/upgrader.dart';
 
 import 'bindings/root_binding.dart';
 
@@ -54,7 +55,14 @@ class MyHttpOverrides extends HttpOverrides {
 Future<void> main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
+// Only call clearSavedSettings() during testing to reset internal values.
+  await Upgrader.clearSavedSettings(); // REMOVE this for release builds
 
+  // On Android, the default behavior will be to use the Google Play Store
+  // version of the app.
+  // On iOS, the default behavior will be to use the App Store version of
+  // the app, so update the Bundle Identifier in example/ios/Runner with a
+  // valid identifier already in the App Store.
   await Firebase.initializeApp();
 
   // on background notification tapped
@@ -89,10 +97,7 @@ Future<void> main() async {
   HttpOverrides.global = MyHttpOverrides();
 
   runApp(const MyApp());
-
 }
-
-
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -149,7 +154,6 @@ class _MyAppState extends State<MyApp> {
     } on PlatformException {
       appBadgeSupported = 'Failed to get badge support.';
       print(appBadgeSupported);
-      
     }
 
     // If the widget was removed from the tree while the asynchronous platform
