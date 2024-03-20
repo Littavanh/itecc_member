@@ -6,6 +6,7 @@ final fmdate = DateFormat("dd/MM/yyyy", 'en_US');
 // String url = 'http://192.168.100.28:8443/api/';
 
 // String url = 'http://hrm.tkgroup.la:8822/api/';
-String url = 'https://hrm.tkgroup.la:7443/api/';
+// String url = 'https://hrm.tkgroup.la:7443/api/';
+String url = 'http://192.168.100.28:3344/api/';
 
 const String publickey = 'wt86t129-58m0-c245-8ff0-80ynov0a29pmh';

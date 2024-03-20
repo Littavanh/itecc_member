@@ -21,7 +21,7 @@ class QrCodeScanner extends StatefulWidget {
 class _QrCodeScannerState extends State<QrCodeScanner> {
   ScanQrCodeShopController scanQrCodeShopController =
       Get.put(ScanQrCodeShopController());
-  Barcode? result;
+ 
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   bool isFlashOn = false;
@@ -117,6 +117,7 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
 
   int counter = 0;
   void _onQRViewCreated(QRViewController controller) {
+     Barcode? result;
     setState(() {
       this.controller = controller;
     });

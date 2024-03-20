@@ -94,13 +94,15 @@ class RequestPaymentStaffController extends GetxController {
           Get.offAll(CancelPayment(), arguments: [json['message']]);
         });
 
-        // print(
-        //     'requestPaymentStaff: ${requestPaymentStaff.toJson().toString()}');
+        print(
+            'requestPaymentStaff: ${requestPaymentStaff.toJson().toString()}');
 
         // Get.offAll(ButtomNavigate());
       }
     } else {
-      
+
+      print('requestPaymentStaff: ${response.statusCode}');
+
       print('error fetching data');
     }
     // } catch (e) {
