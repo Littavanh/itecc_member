@@ -248,44 +248,46 @@ class _MyWalletState extends State<MyWallet> {
                     ],
                   ),
                 ),
+                // InkWell(
+                //   onTap: () {},
+                //   focusColor: icolor,
+                //   borderRadius: BorderRadius.circular(10),
+                //   child: const Column(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       Icon(
+                //         Icons.wallet_outlined,
+                //         size: 80,
+                //         color: dient,
+                //       ),
+                //       Text("ຕື່ມເງິນ",
+                //           textAlign: TextAlign.center,
+                //           style: TextStyle(color: textColor))
+                //     ],
+                //   ),
+                // ),
+                // InkWell(
+                //   onTap: () {},
+                //   focusColor: icolor,
+                //   borderRadius: BorderRadius.circular(10),
+                //   child: const Column(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       Icon(
+                //         Icons.wallet_outlined,
+                //         size: 80,
+                //         color: dient,
+                //       ),
+                //       Text("ຖອນເງິນ",
+                //           textAlign: TextAlign.center,
+                //           style: TextStyle(color: textColor))
+                //     ],
+                //   ),
+                // ),
                 InkWell(
-                  onTap: () {},
-                  focusColor: icolor,
-                  borderRadius: BorderRadius.circular(10),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.wallet_outlined,
-                        size: 80,
-                        color: dient,
-                      ),
-                      Text("ຕື່ມເງິນ",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: textColor))
-                    ],
-                  ),
-                ),
-                InkWell(
-                  onTap: () {},
-                  focusColor: icolor,
-                  borderRadius: BorderRadius.circular(10),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.wallet_outlined,
-                        size: 80,
-                        color: dient,
-                      ),
-                      Text("ຖອນເງິນ",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: textColor))
-                    ],
-                  ),
-                ),
-                InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    
+                  },
                   focusColor: icolor,
                   borderRadius: BorderRadius.circular(10),
                   child: Column(
