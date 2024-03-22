@@ -56,8 +56,7 @@ class _UserTransactionDetailsState extends State<UserTransactionDetails>
           style: TextStyle(color: primaryColor),
         ),
       ),
-      body: Column(crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+      body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Expanded(
           flex: 2,
           child: Padding(
@@ -86,7 +85,6 @@ class _UserTransactionDetailsState extends State<UserTransactionDetails>
             child: Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-               
                 children: [
                   Text(
                     tran_title,
@@ -94,37 +92,47 @@ class _UserTransactionDetailsState extends State<UserTransactionDetails>
                   ),
                   Flexible(
                     child: Text(
-                       tran_detail,
-                      style: TextStyle(color: Colors.black45, fontSize: 14),textAlign: TextAlign.center,
+                      tran_detail,
+                      style: TextStyle(color: Colors.black45, fontSize: 14),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   Text(
                     'ວັນທີ: $tran_date',
                     style: TextStyle(color: Colors.black45, fontSize: 14),
                   ),
-                  if(tran_title == 'Payment')
-                       Text(
-                          'ຈຳນວນ : - ${fm.format(double.parse(tran_amount ?? ''))} LAK',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: errorColor,
-                              fontSize: 14),
-                        ),
-                         if(tran_title == 'Refund')
-                       Text(
-                          'ຈຳນວນ :  ${fm.format(double.parse(tran_amount ?? ''))} LAK',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: errorColor,
-                              fontSize: 14),
-                        ),
-                     if(tran_title == 'TOP-UP')   Text(
-                          'ຈຳນວນ : + ${fm.format(double.parse(tran_amount ?? ''))} LAK',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green,
-                              fontSize: 14),
-                        ),
+                  if (tran_title == 'Payment')
+                    Text(
+                      'ຈຳນວນ : - ${fm.format(double.parse(tran_amount ?? ''))} LAK',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: errorColor,
+                          fontSize: 14),
+                    ),
+                  if (tran_title == 'Refund')
+                    Text(
+                      'ຈຳນວນ :  ${fm.format(double.parse(tran_amount ?? ''))} LAK',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: errorColor,
+                          fontSize: 14),
+                    ),
+                  if (tran_title == 'TOP-UP')
+                    Text(
+                      'ຈຳນວນ : + ${fm.format(double.parse(tran_amount ?? ''))} LAK',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green,
+                          fontSize: 14),
+                    ),
+                  if (tran_title == 'ໂອນເງິນ')
+                    Text(
+                      'ຈຳນວນ : ${fm.format(double.parse(tran_amount ?? ''))} LAK',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue,
+                          fontSize: 14),
+                    ),
                 ],
               ),
             ),

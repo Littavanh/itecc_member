@@ -69,16 +69,13 @@ class RequestPaymentStaffController extends GetxController {
       var json = jsonDecode(response.body);
 
       if (json['statusCode'] == 200) {
-        Future.delayed(Duration(seconds: 2), () {
-          EasyLoading.dismiss();
-        });
-        final requestPaymentStaff = RequestPaymentStaff.fromJson(json);
+         final requestPaymentStaff = RequestPaymentStaff.fromJson(json);
         print(
             'requestPaymentStaff: ${requestPaymentStaff.toJson().toString()}');
+        Future.delayed(Duration(seconds: 2), () {
 
-        // Get.to(InputAmount(), arguments: [shop.shopCode, shop.shopName]);
-
-        Get.offAll(CompletePayment(), arguments: [
+          EasyLoading.dismiss();
+           Get.offAll(CompletePayment(), arguments: [
           requestPaymentStaff.shopCode,
           requestPaymentStaff.shopName,
           requestPaymentStaff.requestAmount,
@@ -87,6 +84,12 @@ class RequestPaymentStaffController extends GetxController {
           transactionDate,
           transactionTime
         ]);
+        });
+       
+
+        // Get.to(InputAmount(), arguments: [shop.shopCode, shop.shopName]);
+
+       
       } else {
         final requestPaymentStaff = RequestPaymentStaff.fromJson(json);
         Future.delayed(Duration(seconds: 2), () {

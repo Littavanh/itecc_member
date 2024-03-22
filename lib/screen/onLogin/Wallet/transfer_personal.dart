@@ -2,27 +2,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:itecc_member/screen/onLogin/Wallet/qr_code_scanner_personal.dart';
-
-import 'package:itecc_member/screen/onLogin/Wallet/scan_qr_code_with_fromImage_personal.dart';
-import 'package:itecc_member/screen/onLogin/Wallet/transfer_personal.dart';
+import 'package:itecc_member/screen/onLogin/Wallet/transfer_personalByPhoneNumber.dart';
+import 'package:itecc_member/screen/onLogin/Wallet/transfer_personalByQrcode.dart';
 
 import '../../../controller/eye_controller.dart';
 import '../../../controller/user_balance_info_controller.dart';
 import '../../../services/todo_services.dart';
 import '../../../style/color.dart';
-import 'my_qrcode.dart';
 
 final box = GetStorage();
 
-class MyWallet extends StatefulWidget {
-  const MyWallet({super.key});
+class TransferPersonal extends StatelessWidget {
+  const TransferPersonal({super.key});
 
-  @override
-  State<MyWallet> createState() => _MyWalletState();
-}
-
-class _MyWalletState extends State<MyWallet> {
   @override
   Widget build(BuildContext context) {
     final EyeController eyeController = Get.put(EyeController());
@@ -211,27 +203,7 @@ class _MyWalletState extends State<MyWallet> {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.to(QrCodeScannerPersonal());
-                  },
-                  focusColor: icolor,
-                  borderRadius: BorderRadius.circular(10),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.center_focus_weak_outlined,
-                        size: 80,
-                        color: dient,
-                      ),
-                      Text("ສະແກນເພື່ອຈ່າຍ",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: textColor))
-                    ],
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Get.to(MyQrCode());
+                    Get.to(TransferPersonalByQrCode());
                   },
                   focusColor: icolor,
                   borderRadius: BorderRadius.circular(10),
@@ -243,68 +215,32 @@ class _MyWalletState extends State<MyWallet> {
                         size: 80,
                         color: dient,
                       ),
-                      Text("QR ຂອງຂ້ອຍ",
+                      Text("ສະແກນເພື່ອໂອນ",
                           textAlign: TextAlign.center,
                           style: TextStyle(color: textColor))
                     ],
                   ),
                 ),
-                // InkWell(
-                //   onTap: () {},
-                //   focusColor: icolor,
-                //   borderRadius: BorderRadius.circular(10),
-                //   child: const Column(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: [
-                //       Icon(
-                //         Icons.wallet_outlined,
-                //         size: 80,
-                //         color: dient,
-                //       ),
-                //       Text("ຕື່ມເງິນ",
-                //           textAlign: TextAlign.center,
-                //           style: TextStyle(color: textColor))
-                //     ],
-                //   ),
-                // ),
-                // InkWell(
-                //   onTap: () {},
-                //   focusColor: icolor,
-                //   borderRadius: BorderRadius.circular(10),
-                //   child: const Column(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: [
-                //       Icon(
-                //         Icons.wallet_outlined,
-                //         size: 80,
-                //         color: dient,
-                //       ),
-                //       Text("ຖອນເງິນ",
-                //           textAlign: TextAlign.center,
-                //           style: TextStyle(color: textColor))
-                //     ],
-                //   ),
-                // ),
                 InkWell(
                   onTap: () {
-                    Get.to(TransferPersonal());
+                    Get.to(TransferPersonalByPhoneNumber());
                   },
                   focusColor: icolor,
                   borderRadius: BorderRadius.circular(10),
-                  child: Column(
+                  child: const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        Icons.send_to_mobile_outlined,
+                        Icons.smartphone_outlined,
                         size: 80,
                         color: dient,
                       ),
-                      Text("ໂອນເງິນ",
+                      Text("ໂອນດ້ວຍເບີໂທ",
                           textAlign: TextAlign.center,
                           style: TextStyle(color: textColor))
                     ],
                   ),
-                )
+                ),
               ]),
         )
       ]),

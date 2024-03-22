@@ -408,7 +408,7 @@ class _NotificationState extends State<Notification> {
                                           ['transactionDetail'];
                                       userTransactionController
                                           .fetchReadUserTransaction(tran_id);
-                                   reFreshLoad();
+                                      reFreshLoad();
                                       Get.to(UserTransactionDetails(),
                                           arguments: [
                                             tran_id,
@@ -564,6 +564,18 @@ class _NotificationState extends State<Notification> {
                                                                         .bold,
                                                                 color: Colors
                                                                     .green),
+                                                          ),
+                                                        if (addListView[index][
+                                                                'transactionTitle'] ==
+                                                            'ໂອນເງິນ')
+                                                          Text(
+                                                            '${fm.format(double.parse(addListView[index]['amount'] ?? ''))} LAK',
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .blue),
                                                           ),
                                                         Text(
                                                           addListView[index][

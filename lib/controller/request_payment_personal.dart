@@ -71,6 +71,7 @@ class RequestPaymentPersonalController extends GetxController {
           'requestPaymentPersonal: ${requestPaymentPersonal.toJson().toString()}');
       if (json['statusCode'] == 200) {
         Future.delayed(Duration(seconds: 2), () {
+          EasyLoading.dismiss();
           Get.offAll(CompletePayment(), arguments: [
             requestPaymentPersonal.shopCode,
             requestPaymentPersonal.shopName,
@@ -80,7 +81,7 @@ class RequestPaymentPersonalController extends GetxController {
             transactionDate,
             transactionTime
           ]);
-          EasyLoading.dismiss();
+          
         });
 
         // Get.to(InputAmount(), arguments: [shop.shopCode, shop.shopName]);
