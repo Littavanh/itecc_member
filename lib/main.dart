@@ -55,8 +55,6 @@ class MyHttpOverrides extends HttpOverrides {
 Future<void> main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
-// Only call clearSavedSettings() during testing to reset internal values.
-  await Upgrader.clearSavedSettings(); // REMOVE this for release builds
 
   // On Android, the default behavior will be to use the Google Play Store
   // version of the app.

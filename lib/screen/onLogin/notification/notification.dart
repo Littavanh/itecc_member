@@ -569,7 +569,19 @@ class _NotificationState extends State<Notification> {
                                                                 'transactionTitle'] ==
                                                             'ໂອນເງິນ')
                                                           Text(
-                                                            '${fm.format(double.parse(addListView[index]['amount'] ?? ''))} LAK',
+                                                            '- ${fm.format(double.parse(addListView[index]['amount'] ?? ''))} LAK',
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .orange),
+                                                          ),
+                                                          if (addListView[index][
+                                                                'transactionTitle'] ==
+                                                            'ໄດ້ຮັບເງິນໂອນ')
+                                                          Text(
+                                                            '+ ${fm.format(double.parse(addListView[index]['amount'] ?? ''))} LAK',
                                                             style: const TextStyle(
                                                                 fontWeight:
                                                                     FontWeight

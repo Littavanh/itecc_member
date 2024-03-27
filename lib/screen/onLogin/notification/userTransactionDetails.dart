@@ -130,6 +130,14 @@ class _UserTransactionDetailsState extends State<UserTransactionDetails>
                       'ຈຳນວນ : ${fm.format(double.parse(tran_amount ?? ''))} LAK',
                       style: const TextStyle(
                           fontWeight: FontWeight.bold,
+                          color: Colors.orange,
+                          fontSize: 14),
+                    ),
+                     if (tran_title == 'ໄດ້ຮັບເງິນໂອນ')
+                    Text(
+                      'ຈຳນວນ : ${fm.format(double.parse(tran_amount ?? ''))} LAK',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
                           color: Colors.blue,
                           fontSize: 14),
                     ),
