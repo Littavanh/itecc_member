@@ -79,17 +79,26 @@ class _HomeMainState extends State<HomeMain> {
           i++) {
         myList.add(InkWell(
           onTap: () async {
-            var icon_id =
-                appController.applicationListModel?.data?[i].applicationId;
-            var icon_title =
-                appController.applicationListModel?.data?[i].applicationName;
-            var icon_details =
-                appController.applicationListModel?.data?[i].applicationUrl;
-            var icon_image = appController
-                .applicationListModel?.data?[i].applicationIconImage;
+            // var icon_id =
+            //     appController.applicationListModel?.data?[i].applicationId;
+            // var icon_title =
+            //     appController.applicationListModel?.data?[i].applicationName;
+            // var icon_details =
+            //     appController.applicationListModel?.data?[i].applicationUrl;
+            // var icon_image = appController
+            //     .applicationListModel?.data?[i].applicationIconImage;
 
-            Get.to(const IconDetails(),
-                arguments: [icon_id, icon_title, icon_details, icon_image]);
+            // Get.to(const IconDetails(),
+            //     arguments: [icon_id, icon_title, icon_details, icon_image]);
+            var url =
+                appController.applicationListModel?.data![i].applicationUrl;
+            final uri = Uri.parse(url!);
+            if (await canLaunchUrl(uri)) {
+              await launchUrl(uri);
+            } else {
+              throw 'Could not launch $url';
+            }
+            print(i);
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -308,7 +317,7 @@ class _HomeMainState extends State<HomeMain> {
                             ),
                           )),
                 ),
-               Obx(() => feedController.isLoading.value
+                Obx(() => feedController.isLoading.value
                     ? const Center(
                         child: CircularProgressIndicator(),
                       )
@@ -414,7 +423,8 @@ class _HomeMainState extends State<HomeMain> {
                                                   ),
                                                   Expanded(
                                                       flex: 2,
-                                                      child: SingleChildScrollView(
+                                                      child:
+                                                          SingleChildScrollView(
                                                         child: Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
@@ -434,7 +444,7 @@ class _HomeMainState extends State<HomeMain> {
                                                                   color:
                                                                       textColor,
                                                                   fontSize: 12),
-                                                                    softWrap: false,
+                                                              softWrap: false,
                                                               maxLines: 1,
                                                               overflow: TextOverflow
                                                                   .ellipsis, // new
