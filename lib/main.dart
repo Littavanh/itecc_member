@@ -86,6 +86,7 @@ Future<void> main() async {
     if (message.notification != null) {
       print("data: $payloadData");
     }
+
     PushNotifications.showSimpleNotification(
         title: message.notification!.title!,
         body: message.notification!.body!,
