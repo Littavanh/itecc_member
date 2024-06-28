@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:itecc_member/controller/check_token_key_controller.dart';
+import 'package:itecc_member/controller/homescreen_applicationList_controller.dart';
 import 'package:itecc_member/screen/home_page.dart';
+import 'package:itecc_member/screen/hone_page_menu.dart';
 import 'package:itecc_member/screen/nonLogin/home.dart';
 import 'package:itecc_member/screen/onLogin/buttom_navigate.dart';
 import 'package:itecc_member/services/auto_login.dart';
@@ -10,7 +12,9 @@ import 'package:itecc_member/style/color.dart';
 
 import '../controller/login_controller.dart';
 import '../services/todo_services.dart';
+
 final box = GetStorage();
+
 class SlapScreen extends StatefulWidget {
   const SlapScreen({super.key});
 
@@ -19,28 +23,17 @@ class SlapScreen extends StatefulWidget {
 }
 
 class _SlapScreenState extends State<SlapScreen> {
-  CheckTokenKeyController checkTokenKeyController = Get.put(CheckTokenKeyController());
+  HomeScreenApplicationListController homeScreenApplicationListController =
+      Get.put(HomeScreenApplicationListController());
   @override
   void initState() {
     super.initState();
-
-    _loginAuto();
+    loadCount();
   }
 
-  Future _loginAuto() async {
+  Future<void> loadCount() async {
     await Future.delayed(const Duration(seconds: 3));
-
-    final user = AutoLogin.getUser();
-
-    if (user.rememberMe) {
-      print('autoLogin');
-   
-      await CheckTokenKeyController.postCheckTokenKey(
-          token: user.tokenKey);
-    } else {
-      print('no autoLogin');
-      Get.offAll(HomePage());
-    }
+    await homeScreenApplicationListController.fetchHomeScreenAppList();
   }
 
   @override

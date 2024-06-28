@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:horizontal_list/horizontal_list.dart';
 import 'package:itecc_member/controller/banner_controller.dart';
@@ -36,6 +37,10 @@ class _HomeState extends State<Home> {
   FeedController feedController = Get.put(FeedController());
   @override
   Widget build(BuildContext context) {
+    // var screenSize = MediaQuery.of(context).size;
+    // print("width: ${screenSize.width}");
+    // print("height: ${screenSize.height}");
+
     final TextEditingController _searchController = TextEditingController();
     List<Widget> _itemsComponent() {
       List<Widget> myList = [];
